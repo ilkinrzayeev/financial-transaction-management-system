@@ -1,7 +1,9 @@
 package az.edu.financialtransactionmanagementsystem.service.impl;
 
+import az.edu.financialtransactionmanagementsystem.dto.InterestLogDto;
 import az.edu.financialtransactionmanagementsystem.entity.Account;
 import az.edu.financialtransactionmanagementsystem.entity.InterestLog;
+import az.edu.financialtransactionmanagementsystem.mapper.InterestLogMapper;
 import az.edu.financialtransactionmanagementsystem.repository.AccountRepository;
 import az.edu.financialtransactionmanagementsystem.repository.InterestLogRepository;
 import az.edu.financialtransactionmanagementsystem.service.InterestService;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +24,10 @@ public class InterestServiceImpl implements InterestService {
 
     private final AccountRepository accountRepository;
     private final InterestLogRepository interestLogRepository;
+    private final InterestLogMapper interestLogMapper;
     private static final Logger logger = LoggerFactory.getLogger(InterestServiceImpl.class);
 
-    private static final double DAILY_INTEREST_RATE = 0.0005;
+    private static final double DAILY_INTEREST_RATE = 0.0005; // 0.05% gündəlik faiz
 
     @Override
     @Transactional
@@ -46,5 +50,14 @@ public class InterestServiceImpl implements InterestService {
                 logger.info("Interest applied to account {}: {}", account.getAccountId(), interest);
             }
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InterestLogDto> getAllInterestLogs() {
+        return interestLogRepository.findAll()
+                .stream()
+                .map(interestLogMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
