@@ -10,9 +10,10 @@ import org.mapstruct.*;
 public interface AccountMapper {
     @Mapping(target = "accountId", ignore = true)
     @Mapping(target = "customer", source = "customer")
-    @Mapping(target = "balance", source = "initialBalance")
+    @Mapping(target = "balance", source = "dto.initialBalance")
     Account toEntity(AccountRequestDto dto, Customer customer);
 
     @Mapping(target = "customerId", source = "customer.customerId")
+    @Mapping(target = "message", ignore = true)
     AccountResponseDto toResponseDto(Account entity);
 }

@@ -7,7 +7,9 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
+    @Mapping(target = "customerId", ignore = true)
     Customer toEntity(CustomerRequestDto dto);
 
+    @Mapping(target = "message", ignore = true)
     CustomerResponseDto toResponseDto(Customer entity);
 }

@@ -6,5 +6,7 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
+    @Mapping(target = "message", ignore = true)
+    @Mapping(target = "error", ignore = true)
     TransferResponseDto toResponseDto(Transaction entity);
 }
