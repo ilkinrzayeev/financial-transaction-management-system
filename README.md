@@ -38,6 +38,7 @@ A layered, SOLID-compliant Spring Boot backend application for managing banking 
    ```
    http://localhost:8080/swagger-ui.html
    ```
+   
 
 ## Docker
 
